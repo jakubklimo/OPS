@@ -1,6 +1,7 @@
 #include "mbed.h"
 #include <iostream>
 #include <string> 
+#include "stm32746g_discovery_lcd.h"
 
 DigitalOut myled(LED1);
 
@@ -31,7 +32,17 @@ void morse (String morseIn, int pocet){
     }
 }
 
-int main() {  
+int main() { 
+    BSP_LCD_Init();
+    BSP_LCD_LayerDefaultInit(LTDC_ACTIVE_LAYER, LCD_FB_START_ADDRESS);
+    BSP_LCD_SelectLayer(LTDC_ACTIVE_LAYER);
+    BSP_LCD_Clear(LCD_COLOR_BLACK);
+    BSP_LCD_SetFont(&LCD_DEFAULT_FONT);
+    BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+    BSP_LCD_SetTextColor(LCD_COLOR_DARKBLUE);
+
+    BSP_LCD_DisplayStringAt(0, 1, (uint8_t *)"Anežka a Jakub", CENTER_MODE);
+
     string in = ".- -. . --.. -.- .-/.--- .- -.- ..- -...";
     while(1) {
         morse(in, in.length());
